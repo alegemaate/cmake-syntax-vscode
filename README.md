@@ -1,12 +1,12 @@
-# S/SL Syntax Support VSCODE
+# CMAKE Syntax Support VSCODE
 
-This extension adds basic support to VS Code for the S/SL langauge.
+> WIP!
 
-The Syntax/Semantic Language (S/SL) is an executable high level specification language for recursive descent parsers, semantic analyzers and code generators developed by James Cordy, Ric Holt and David Wortman at the University of Toronto in 1980.
+This extension adds better syntax highlighting for CMAKE files in VS Code.
 
 ## Features
 
-Adds basic syntax support for .cmake files in VS Code.
+Adds better syntax support for .cmake files in VS Code.
 
 ## Known Issues
 
