@@ -1,0 +1,211 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "fileTypes": ["CMakeLists.txt"],
+  "name": "CMake",
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#control"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#commands"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.block.cmake",
+          "begin": "#\\[\\[",
+          "end": "\\]\\]"
+        },
+        {
+          "name": "comment.line.number-sign.cmake",
+          "match": "#+.*$"
+        }
+      ]
+    },
+    "control": {
+      "begin": "^\\s*\\b(?i:(IF|ELSEIF|ELSE|ENDIF|FOREACH|ENDFOREACH|WHILE|ENDWHILE|BREAK|CONTINUE|MACRO|ENDMACRO|FUNCTION|ENDFUNCTION|BLOCK|ENDBLOCK))\\b\\s*(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.cmake"
+        },
+        "2": {
+          "name": "punctuation.section.begin.bracket.round.cmake"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.end.bracket.round.cmake"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#arguments"
+        }
+      ]
+    },
+    "operators": {
+      "begin": "^\\s*\\b(?i:(SET|INCLUDE|INCLUDE_GUARD|LIST|MATH|RETURN|UNSET|STRING|OPTION))\\b\\s*(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.operator.cmake"
+        },
+        "2": {
+          "name": "punctuation.section.begin.bracket.round.cmake"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.end.bracket.round.cmake"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#arguments"
+        }
+      ]
+    },
+    "commands": {
+      "begin": "^\\s*\\b(\\w+)\\b\\s*(\\()",
+      "end": "(\\))",
+      "beginCaptures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#commandsBuiltin"
+            },
+            {
+              "include": "#commandsDeprecated"
+            }
+          ]
+        },
+        "2": {
+          "name": "punctuation.section.begin.bracket.round.cmake"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.end.bracket.round.cmake"
+        }
+      },
+      "patterns": [
+        {
+          "name": "meta.parameter.type.variable",
+          "match": "\\b(FILES|LIBS|DEVICE_TEST_DIR|DEVICE_OBJECT_STORE)\\b"
+        },
+        {
+          "include": "#arguments"
+        }
+      ]
+    },
+    "commandsBuiltin": {
+      "name": "support.function.cmake",
+      "match": "cmake_host_system_information|cmake_language|cmake_minimum_required|cmake_parse_arguments|cmake_path|cmake_policy|configure_file|execute_process|file|find_file|find_library|find_package|find_path|find_program|get_cmake_property|get_directory_property|get_filename_component|get_property|mark_as_advanced|message|separate_arguments|set_directory_properties|set_property|site_name|variable_watch|add_compile_definitions|add_compile_options|add_custom_command|add_custom_target|add_definitions|add_dependencies|add_executable|add_library|add_link_options|add_subdirectory|add_test|aux_source_directory|build_command|create_test_sourcelist|define_property|enable_language|enable_testing|export|fltk_wrap_ui|get_source_file_property|get_target_property|get_test_property|include_directories|include_external_msproject|include_regular_expression|install|link_directories|link_libraries|load_cache|project|remove_definitions|set_source_files_properties|set_target_properties|set_tests_properties|source_group|target_compile_definitions|target_compile_features|target_compile_options|target_include_directories|target_link_directories|target_link_libraries|target_link_options|target_precompile_headers|target_sources|try_compile|try_run"
+    },
+    "commandsAndroidTestUtilities": {
+      "name": "support.function.cmake",
+      "match": "android_add_test_data"
+    },
+    "commandsDeprecated": {
+      "name": "invalid.deprecated.cmake",
+      "match": "build_name|exec_program|export_library_dependencies|install_files|install_programs|install_targets|load_command|make_directory|output_required_files|qt_wrap_cpp|qt_wrap_ui|remove|subdir_depends|subdirs|use_mangled_mesa|utility_source|variable_requires|write_file"
+    },
+    "commandGeneric": {
+      "name": "entity.name.function",
+      "match": "\\b([A-Za-z_]\\w*)\\b"
+    },
+    "arguments": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#variableInterpolation"
+        },
+        {
+          "name": "support.variable.cmake",
+          "match": "\\b(_?(CMAKE_|PROJECT_|CTEST_|CPACK_)[A-Z_]+)\\b"
+        },
+        {
+          "name": "support.variable.cmake",
+          "match": "\\b(ANDROID|APPLE|BORLAND|BSD|GYGWIN|GHSMULTI|IOS|LINUX|MINGW|MSVC([0-9]*)|MSVC_IDE|MSVC_TOOLSET_VERSION|MSVC_VERSION|MSYS|UNIX|WIN32|WINCE|WINDOWS_PHONE|WINDOWS_STORE|XCODE|XCODE_VERSION|BUILD_SHARED_LIBS|EXECUTABLE_OUTPUT_PATH|LIBRARY_OUTPUT_PATH|EMSCRIPTEN)\\b"
+        },
+        {
+          "name": "constant.language.cmake",
+          "match": "\\b(ON|OFF)\\b"
+        },
+        {
+          "name": "keyword.control.operator.cmake",
+          "match": "\\b(OR|NOT|AND|ABSOLUTE|BOOL|CACHE|COMMAND|COMMENT|DEFINED|DOC|EQUAL|EXISTS|EXT|FALSE|GREATER|GREATER_EQUAL|INTERNAL|IN_LIST|IS_ABSOLUTE|IS_DIRECTORY|IS_NEWER_THAN|IS_SYMLINK|LESS|LESS_EQUAL|MATCHES|NAME|NAMES|NAME_WE|NOT|OFF|ON|OR|PATH|PATHS|POLICY|PROGRAM|STREQUAL|STRGREATER|STRGREATER_EQUAL|STRING|STRLESS|STRLESS_EQUAL|TARGET|TEST|TRUE|VERSION_EQUAL|VERSION_GREATER|VERSION_GREATER_EQUAL|VERSION_LESS)\\b"
+        },
+        {
+          "match": "\\b([0-9]+)\\b",
+          "captures": {
+            "1": {
+              "name": "constant.numeric.number.cmake"
+            }
+          }
+        },
+        {
+          "match": "\\b([A-Z]+\\w*)\\b",
+          "captures": {
+            "1": {
+              "name": "variable.parameter.cmake"
+            }
+          }
+        }
+      ]
+    },
+    "variableInterpolation": {
+      "name": "storage.source.cmake",
+      "begin": "\\$(ENV)?\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.variable.cmake"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.variable.cmake"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#variableInterpolation"
+        },
+        {
+          "name": "variable.parameter.cmake",
+          "match": "[A-Za-z_]\\w*"
+        }
+      ]
+    },
+    "string": {
+      "name": "string.quoted.double.cmake",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "match": "\\\\(.|$)",
+          "name": "constant.character.escape.cmake"
+        },
+        {
+          "include": "#variableInterpolation"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.cmake"
+}
